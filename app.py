@@ -3,12 +3,8 @@ from fastapi import FastAPI
 from ai_requests import make_ai_response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from dotenv import load_dotenv
 
 from exception import CustomException
-
-
-load_dotenv()
 
 
 class Item(BaseModel):
@@ -66,11 +62,11 @@ async def get_ai_response(percentage_done: Item):
         raise CustomException(e, sys)
 
 
-# if __name__ == "__main__":
-#     import uvicorn
+if __name__ == "__main__":
+    import uvicorn
 
-#     port = int(
-#         os.environ.get("PORT", 8000)
-#     )  # define port so we can map container port to localhost
+    port = int(
+        os.environ.get("PORT", 8000)  # 8000 for local
+    )  # define port so we can map container port to localhost
 
-#     uvicorn.run("app:app", host="0.0.0.0", port=port, reload=True)
+    uvicorn.run("app:app", host="0.0.0.0", port=port, reload=False)  # True for test
