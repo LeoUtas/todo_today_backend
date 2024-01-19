@@ -32,7 +32,7 @@ origins = [
     "http://localhost:3000",
     "http://localhost:3001",
     "http://localhost:3002",
-    "https://todotoday0.netlify.app/",
+    "https://todotoday0.netlify.app",
 ]
 
 app.add_middleware(
@@ -66,11 +66,11 @@ async def get_ai_response(percentage_done: Item):
         raise CustomException(e, sys)
 
 
-if __name__ == "__main__":
-    import uvicorn
+# if __name__ == "__main__":
+#     import uvicorn
 
-    port = int(
-        os.environ.get("PORT", 5000)
-    )  # define port so we can map container port to localhost
+#     port = int(
+#         os.environ.get("PORT", 8000)
+#     )  # define port so we can map container port to localhost
 
-    uvicorn.run("app:app", host="0.0.0.0", port=port, reload=False)
+#     uvicorn.run("app:app", host="0.0.0.0", port=port, reload=True)
