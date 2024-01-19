@@ -15,11 +15,11 @@ class Item(BaseModel):
     percentage_done: float
 
 
-model = os.getenv("MODEL")
-personality = os.getenv("PERSONALITY")
-number_of_word = int(os.getenv("NUMBER_OF_WORDS"))
-role = os.getenv("ROLE")
-note = os.getenv("NOTE")
+model = "gpt-3.5-turbo"
+personality = "hilarious"
+number_of_word = 8
+role = "assistant"
+note = "do not repeat the sentence, make your message random"
 
 
 app = FastAPI()
@@ -32,6 +32,7 @@ origins = [
     "http://localhost:3000",
     "http://localhost:3001",
     "http://localhost:3002",
+    "https://todotoday0.netlify.app/",
 ]
 
 app.add_middleware(
@@ -55,6 +56,7 @@ async def get_ai_response(percentage_done: Item):
             f"You are a {personality} assistant,"
             + f" making a {number_of_word}-word sentence"
             + f" to inspire somebody who just got {percentage_done}% of the work done."
+            + f"{note}"
         )
 
         response = make_ai_response(role, prompt, model)
@@ -67,4 +69,8 @@ async def get_ai_response(percentage_done: Item):
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run("app:app", host="0.0.0.0", port=8000, reload=False)
+    port = int(
+        os.environ.get("PORT", 5000)
+    )  # define port so we can map container port to localhost
+
+    uvicorn.run("app:app", host="0.0.0.0", port=port, reload=False)
